@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { collection, getDocs, query } from 'firebase/firestore'; // Correct imports
 import { firestore } from '@/firebase'; // Your firebase configuration file
 
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography, Button } from '@mui/material';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -55,8 +55,8 @@ export default function Home() {
       <Box sx={listStyle}>
         <List>
           {items.map((i) => (
-            <ListItem key={i}> {/* Added key prop */}
-              <ListItemText primary={i} />
+            <ListItem key={i}>
+            <ListItemText primary={i} />
             </ListItem>
           ))}
         </List>
