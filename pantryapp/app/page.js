@@ -1,9 +1,13 @@
+"use client"
 import * as React from 'react';
-import {Box, Stack, Typography} from '@mui/material'
+import { useEffect } from 'react';
+import { collection, getDocs, query } from 'firebase/firestore'; // Correct imports
+import { firestore } from '@/firebase'; // Your firebase configuration file
+
+import { Box, Stack, Typography } from '@mui/material';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import Divider from '@mui/material/Divider';
 
 const items = [
   'Cocoa Powder (unsweetened, Dutch-processed)', 
@@ -16,7 +20,8 @@ const items = [
   'Sea Salt Flakes', 
   'Espresso Powder', 
   'Candied Ginger', 
-  'Lavender Buds (culinary grade)']
+  'Lavender Buds (culinary grade)'
+];
 
 const listStyle = {
   py: 4,
@@ -31,26 +36,31 @@ const listStyle = {
   borderColor: 'divider',
   backgroundColor: 'background.paper',
 };
-  
 
 export default function Home() {
+  useEffect(() => {
+    const updatePantry = async () => {
+      const pantryCollection = query(collection(firestore, 'pantry')); // Correct usage
+      const snapshot = await getDocs(pantryCollection);
+      snapshot.forEach((doc) => 
+        console.log(doc.id)
+      );
+    };
+    updatePantry();
+  }, []);
+
   return (
-
     <Stack> 
-
       <Typography marginLeft={5} marginTop={5} variant={'h4'} color={''} textAlign={'left'} fontWeight={'bold'}> Pantry List </Typography>
-
       <Box sx={listStyle}>
         <List>
           {items.map((i) => (
-            <ListItem spacing={4}>
+            <ListItem key={i}> {/* Added key prop */}
               <ListItemText primary={i} />
             </ListItem>
           ))}
         </List>
       </Box>
     </Stack>
-    
   );
 }
-
